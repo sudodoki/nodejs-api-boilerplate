@@ -2,5 +2,6 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
 module.exports = {
-  User: require('./user.js')
+  User: require('./user.js'),
+  QuizCollection: require('./quiz.js')
 }

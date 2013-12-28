@@ -18,7 +18,7 @@ module.exports = function(){
   }
 
   function clean(collection, cb){
-    models[collection].drop(cb);
+    models[collection].remove({}, cb);
   }
 
   function getSignedUser(cb, u){
