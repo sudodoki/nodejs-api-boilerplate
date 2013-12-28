@@ -12,7 +12,7 @@ describe("github authenticattion", function(){
       done();
     }
   })
-  
+
   it("works!", function(done){
     done()
   });

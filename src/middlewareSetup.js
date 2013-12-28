@@ -27,7 +27,7 @@ module.exports = function(app){
       }
     }
   ))
-   
+
   passport.serializeUser(function(user, done) {
     done(null, user._id);
   });
@@ -50,7 +50,7 @@ module.exports = function(app){
     if(req.user) console.log("UserID: " + req.user._id)
     next();
   });
- 
+
   app.get('/auth/github', app.access.free,
     passport.authenticate('github'),
     function(req,res){})
