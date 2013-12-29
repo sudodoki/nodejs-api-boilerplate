@@ -10,7 +10,12 @@ module.exports = function(){
     authenticate: authenticate,
     getSignedUser: getSignedUser,
     clean: clean,
+    spawn: spawn,
     url:url
+  }
+
+  function spawn(collection, obj, cb) {
+    models[collection].create(obj, cb);
   }
 
   function url(u){

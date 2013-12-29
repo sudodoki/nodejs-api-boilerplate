@@ -3,5 +3,6 @@ mongoose.connect('mongodb://localhost/test');
 
 module.exports = {
   User: require('./user.js'),
-  QuizCollection: require('./quiz.js')
+  Quiz: require('./quiz.js'),
+  Answers: require('./answers.js')
 }

@@ -20,43 +20,47 @@ describe("authenticated user with premissions", function(){
         ]
       };
   beforeEach(function(done){
-    utils.clean('QuizCollection', done)
+    utils.clean('Quiz', done);
   })
+
   before(function(done){
     userJar = utils.authenticate(user, done);
   })
 
-  it("GET /quiz should return all quizes", function(done){
-    request.get(utils.url('/quiz'), {jar: userJar }, function(err, res, body){
+  it("GET /api/quiz should return all quizes", function(done){
+    request.get(utils.url('/api/quiz'), {jar: userJar }, function(err, res, body){
       expect(res).to.have.property('statusCode', 200);
       expect(JSON.parse(body)).to.eql([])
       done();
     });
   });
-  it("POST /quiz should create new quiz", function(done){
+  it("POST /api/quiz should create new quiz", function(done){
 
-    request.post(utils.url('/quiz'), {form: quizStab, jar: userJar }, function(err, res, body){
+    request.post(utils.url('/api/quiz'), {form: quizStab, jar: userJar }, function(err, res, body){
       expect(res).to.have.property('statusCode', 201);
       quizStab = _.extend(quizStab, body)
       done()
     });
   });
-  describe('Quiz actions',function(){
+  describe('Single Quiz actions',function(){
     beforeEach(function(done){
-      request.post(utils.url('/quiz'), {form: quizStab, jar: userJar }, function(err, res, body){
+      request.post(utils.url('/api/quiz'), {form: quizStab, jar: userJar }, function(err, res, body){
         quizStab = _.extend(quizStab, JSON.parse(body))
         done()
       });
     });
-  it("GET /quiz/:id should return single quiz", function(done){
-    request.get(utils.url('/quiz/'+quizStab._id), {jar: userJar }, function(err, res, body){
-      expect(res).to.have.property('statusCode', 200);
-      console.log(body)
-      expect(body).to.beDefined();
-      done();
+    it("GET /quiz/:id should return single quiz", function(done){
+      request.get(utils.url('/api/quiz/'+quizStab._id), {jar: userJar }, function(err, res, body){
+        expect(res).to.have.property('statusCode', 200);
+        var quiz = JSON.parse(body)
+        expect(quiz).to.be.an('object');
+        expect(quiz).to.have.property('author')
+          .that.is.a('string');
+        expect(quiz).to.have.property('quizes')
+          .that.is.an('array')
+          .that.deep.equals([{"q": "Some awesome question?", "a":["one", "two", "three"]}]);
+        done();
+      });
     });
-  });
-
   })
-  
 });
